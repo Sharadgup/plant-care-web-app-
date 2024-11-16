@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plant Disease Classifier</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 1.2em;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>Plant Disease Classifier</h1>
+    <p>Upload an image of the plant leaf to check for diseases and their solutions.</p>
+
+    <form id="uploadForm" enctype="multipart/form-data">
+        <input type="file" name="image" id="imageInput" accept="image/*" required>
+        <button type="submit">Search</button>
+    </form>
+
+    <div class="result" id="result" style="display: none;">
+        <h2 id="disease"></h2>
+        <p id="solution"></p>
+    </div>
+
+    <script>
+        document.getElementById('uploadForm').onsubmit = async function(event) {
+            event.preventDefault();
+            
+            let formData = new FormData();
+            formData.append('image', document.getElementById('imageInput').files[0]);
+            
+            const response = await fetch('/predict', {
+                method: 'POST',
+                body: formData
+            });
+            
+            const result = await response.json();
+            document.getElementById('disease').innerText = "Disease: " + result.disease;
+            document.getElementById('solution').innerText = "Solution: " + result.solution;
+            
+            // Show the result section
+            document.getElementById('result').style.display = 'block';
+        };
+    </script>
+</body>
+</html>
