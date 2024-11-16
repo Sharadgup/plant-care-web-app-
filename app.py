@@ -3,7 +3,7 @@ import os
 import tensorflow as tf
 import numpy as np
 import cv2
-from tensorflow.keras.preprocessing import image
+from tensorflow.keras.preprocessing import image # type: ignore
 
 # Initialize Flask app
 app = Flask(__name__)
